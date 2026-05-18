@@ -1,25 +1,23 @@
-"use client";
+"use client"
 
-import { useState, useRef, useEffect } from "react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { authClient } from '@/lib/auth-client';
+import Image from 'next/image';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import React, { useEffect, useRef, useState } from 'react';
 
-export default function Navbar() {
+const Navbar = () => {
     const pathname = usePathname();
 
-    // Simulating authentication state - replace these with your actual Auth Context/State
-    const [isLoggedIn, setIsLoggedIn] = useState(true);
-    const [user, setUser] = useState({
-        name: "John Doe",
-        email: "john@example.com",
-        avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=100&auto=format&fit=crop",
-    });
+    // 1. Get the session directly from Better-Auth
+    const { data: session, isPending } = authClient.useSession();
+    const user = session?.user;
+    const isLoggedIn = !!session;
 
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const dropdownRef = useRef(null);
 
-    // Close dropdown when clicking outside
     useEffect(() => {
         function handleClickOutside(event) {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -30,13 +28,19 @@ export default function Navbar() {
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, []);
 
-    const handleLogout = () => {
-        setIsLoggedIn(false);
+    // 2. Use Better-Auth's sign-out method
+    const handleLogout = async () => {
         setIsDropdownOpen(false);
-        // Add your Next.js/Express logout logic here (e.g., clearing HttpOnly cookies)
+        setIsMobileMenuOpen(false);
+        await authClient.signOut({
+            fetchOptions: {
+                onSuccess: () => {
+                    window.location.href = "/"; // Redirect cleanly to home page
+                },
+            },
+        });
     };
 
-    // Active link styling helper for Next.js
     const getLinkStyle = (path) => {
         const isActive = pathname === path;
         return isActive
@@ -49,14 +53,14 @@ export default function Navbar() {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between h-16 items-center">
 
-                    {/* Logo Section */}
-                    <div className="flex-shrink-0 flex items-center">
+                    {/* Logo */}
+                    <div className="shrink-0 flex items-center">
                         <Link href="/" className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
-                            Drive<span className="text-blue-600 dark:text-blue-500">Fleet</span>
+                            Drive<span className="text-blue-600 dark:text-blue-500"> Fleet</span>
                         </Link>
                     </div>
 
-                    {/* Desktop Core Navigation Links */}
+                    {/* Desktop Navigation */}
                     <div className="hidden md:flex items-center space-x-8">
                         <Link href="/" className={getLinkStyle("/")}>Home</Link>
                         <Link href="/explore" className={getLinkStyle("/explore")}>Explore Cars</Link>
@@ -68,21 +72,28 @@ export default function Navbar() {
                         )}
                     </div>
 
-                    {/* Auth Section / Profile Dropdown (Desktop) */}
+                    {/* Desktop Auth Section */}
                     <div className="hidden md:flex items-center">
-                        {isLoggedIn ? (
+                        {isPending ? (
+                            // Skeletal/Loading placeholder while Better-Auth fetches session
+                            <div className="h-9 w-9 rounded-full bg-slate-200 dark:bg-slate-700 animate-pulse" />
+                        ) : isLoggedIn ? (
                             <div className="relative ml-3" ref={dropdownRef}>
                                 <button
                                     onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                                     className="flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-transform duration-200 hover:scale-105"
                                 >
-                                    {/* Using standard img here to prevent avatar domain layout lock issues with next/image, or replace with next/image if domain configured */}
-                                    <img className="h-9 w-9 rounded-full object-cover border border-slate-200 dark:border-slate-700" src={user.avatar} alt="User Avatar" />
+                                    <Image
+                                        className="h-9 w-9 rounded-full object-cover border border-slate-200 dark:border-slate-700"
+                                        src={user.image || "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=100&auto=format&fit=crop"}
+                                        alt={user.name}
+                                        width={1000}
+                                        height={1000}
+                                    />
                                 </button>
 
-                                {/* Dropdown Menu */}
                                 {isDropdownOpen && (
-                                    <div className="origin-top-right absolute right-0 mt-2 w-56 rounded-xl shadow-lg bg-white dark:bg-slate-800 ring-1 ring-black ring-opacity-5 divide-y divide-slate-100 dark:divide-slate-700 focus:outline-none transition-all">
+                                    <div className="origin-top-right absolute right-0 mt-2 w-56 rounded-xl shadow-lg bg-white dark:bg-slate-800 ring-1 ring-black ring-opacity-5 divide-y divide-slate-100 dark:divide-slate-700 focus:outline-none">
                                         <div className="px-4 py-3">
                                             <p className="text-sm font-medium text-slate-900 dark:text-white truncate">{user.name}</p>
                                             <p className="text-xs text-slate-500 dark:text-slate-400 truncate mt-0.5">{user.email}</p>
@@ -124,37 +135,41 @@ export default function Navbar() {
                 </div>
             </div>
 
-            {/* Mobile Responsive Menu */}
+            {/* Mobile Menu */}
             {isMobileMenuOpen && (
                 <div className="md:hidden bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 px-2 pt-2 pb-4 space-y-1">
                     <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 rounded-md text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800">Home</Link>
                     <Link href="/explore" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 rounded-md text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800">Explore Cars</Link>
 
-                    {isLoggedIn ? (
-                        <div className="border-t border-slate-200 dark:border-slate-700 mt-3 pt-3">
-                            <div className="flex items-center px-3 mb-3">
-                                <img className="h-10 w-10 rounded-full object-cover" src={user.avatar} alt="User Avatar" />
-                                <div className="ml-3">
-                                    <p className="text-base font-medium text-slate-800 dark:text-white">{user.name}</p>
-                                    <p className="text-sm font-medium text-slate-500 dark:text-slate-400">{user.email}</p>
+                    {!isPending && (
+                        isLoggedIn ? (
+                            <div className="border-t border-slate-200 dark:border-slate-700 mt-3 pt-3">
+                                <div className="flex items-center px-3 mb-3">
+                                    <Image className="h-10 w-10 rounded-full object-cover" src={user.image || "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=100&auto=format&fit=crop"} width={1000} height={1000} alt={user.name} />
+                                    <div className="ml-3">
+                                        <p className="text-base font-medium text-slate-800 dark:text-white">{user.name}</p>
+                                        <p className="text-sm font-medium text-slate-500 dark:text-slate-400">{user.email}</p>
+                                    </div>
                                 </div>
+                                <Link href="/add-car" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 rounded-md text-base font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800">Add Car</Link>
+                                <Link href="/my-bookings" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 rounded-md text-base font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800">My Bookings</Link>
+                                <Link href="/my-added-cars" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 rounded-md text-base font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800">My Added Cars</Link>
+                                <button onClick={handleLogout} className="w-full text-left block px-3 py-2 rounded-md text-base font-medium text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 mt-2">
+                                    Logout
+                                </button>
                             </div>
-                            <Link href="/add-car" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 rounded-md text-base font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800">Add Car</Link>
-                            <Link href="/my-bookings" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 rounded-md text-base font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800">My Bookings</Link>
-                            <Link href="/my-added-cars" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 rounded-md text-base font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800">My Added Cars</Link>
-                            <button onClick={() => { handleLogout(); setIsMobileMenuOpen(false); }} className="w-full text-left block px-3 py-2 rounded-md text-base font-medium text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 mt-2">
-                                Logout
-                            </button>
-                        </div>
-                    ) : (
-                        <div className="pt-2 px-3">
-                            <Link href="/login" onClick={() => setIsMobileMenuOpen(false)} className="w-full flex items-center justify-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">
-                                Login
-                            </Link>
-                        </div>
+                        ) : (
+                            <div className="pt-2 px-3">
+                                <Link href="/login" onClick={() => setIsMobileMenuOpen(false)} className="w-full flex items-center justify-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">
+                                    Login
+                                </Link>
+                            </div>
+                        )
                     )}
                 </div>
             )}
         </nav>
     );
-}
+};
+
+export default Navbar;
