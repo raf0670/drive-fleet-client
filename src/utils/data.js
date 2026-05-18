@@ -1,0 +1,4 @@
+export const getFeatured = async () => {
+    const res = await fetch(`http://localhost:5000/cars/featured`);
+    return res.json();
+};
