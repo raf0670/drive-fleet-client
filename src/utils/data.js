@@ -7,3 +7,8 @@ export const getAllCars = async () => {
     const res = await fetch(`http://localhost:5000/cars`);
     return res.json();
 };
+
+export const getCarDetailByID = async (id) => {
+    const res = await fetch(`http://localhost:5000/cars/${id}`);
+    return res.json();
+};
