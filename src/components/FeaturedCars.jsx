@@ -1,12 +1,12 @@
 import CarCard from "./CarCard";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { getFeatured } from "@/utils/data";
+import { getFeaturedCars } from "@/utils/data";
 import { motion } from "framer-motion";
 import AnimatedGrid from "./AnimateGrid";
 
 export default async function FeaturedCars() {
-    const cars = await getFeatured();
+    const cars = await getFeaturedCars();
 
     const gridVariants = {
         hidden: { opacity: 0 },

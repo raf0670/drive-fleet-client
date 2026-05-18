@@ -27,7 +27,7 @@ const RegisterPage = () => {
     });
 
     // Watch password field value to validate match constraints on confirmPassword input
-    const passwordValue = watch("password");
+    // const passwordValue = watch("password");
 
     // Handle Account Registration Submission
     const onSubmit = async (data) => {

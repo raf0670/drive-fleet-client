@@ -105,7 +105,7 @@ export default function Banner() {
                             <Image
                                 width={1000}
                                 height={1000}
-                                src="https://images.unsplash.com/photo-1706509234538-9831b1b33d66"
+                                src="https://images.unsplash.com/photo-1526726538690-5cbf956ae2fd"
                                 alt="DriveFleet Premium Car"
                                 className="w-full h-auto object-contain rounded-2xl shadow-2xl border border-slate-200/60 dark:border-slate-800/60"
                             />
