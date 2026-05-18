@@ -3,7 +3,7 @@
 import { authClient } from '@/lib/auth-client';
 import Image from 'next/image';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { redirect, usePathname } from 'next/navigation';
 import React, { useEffect, useRef, useState } from 'react';
 
 const Navbar = () => {
@@ -32,13 +32,7 @@ const Navbar = () => {
     const handleLogout = async () => {
         setIsDropdownOpen(false);
         setIsMobileMenuOpen(false);
-        await authClient.signOut({
-            fetchOptions: {
-                onSuccess: () => {
-                    window.location.href = "/"; // Redirect cleanly to home page
-                },
-            },
-        });
+        await authClient.signOut({});
     };
 
     const getLinkStyle = (path) => {
@@ -64,7 +58,7 @@ const Navbar = () => {
                     <div className="hidden md:flex items-center space-x-8">
                         <Link href="/" className={getLinkStyle("/")}>Home</Link>
                         <Link href="/explore" className={getLinkStyle("/explore")}>Explore Cars</Link>
-                        {true && (
+                        {isLoggedIn && (
                             <>
                                 <Link href="/add-car" className={getLinkStyle("/add-car")}>Add Car</Link>
                                 <Link href="/my-bookings" className={getLinkStyle("/my-bookings")}>My Bookings</Link>

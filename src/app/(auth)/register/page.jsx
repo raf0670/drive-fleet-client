@@ -4,61 +4,42 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
 import { Mail, Lock, User, Eye, EyeOff, Loader2, ArrowRight, CarFront, ShieldCheck } from "lucide-react";
-import { redirect } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+import { authClient } from '@/lib/auth-client';
 
 const RegisterPage = () => {
     const [showPassword, setShowPassword] = useState(false);
-    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [serverError, setServerError] = useState(null);
+    const router = useRouter();
 
     // Initialize React Hook Form
     const {
         register,
         handleSubmit,
-        watch,
         formState: { errors, isSubmitting },
-    } = useForm({
-        defaultValues: {
-            name: "",
-            email: "",
-            password: "",
-            confirmPassword: "",
-        },
-    });
-
-    // Watch password field value to validate match constraints on confirmPassword input
-    // const passwordValue = watch("password");
+    } = useForm();
 
     // Handle Account Registration Submission
     const onSubmit = async (data) => {
-        try {
-            setServerError(null);
+        const { name, photo, email, password } = data;
 
-            // Structure your data payload for your Express server
-            const { name, email, password } = data;
-
-            // Replace this with your actual Express.js registration API endpoint
-            const response = await fetch(``, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ name, email, password }),
-            });
-
-            const resData = await response.json();
-
-            if (!response.ok) {
-                throw new Error(resData.message || "Registration processing failed.");
+        const { data: res, error } = await authClient.signUp.email({
+            name: name, // required
+            email: email, // required
+            password: password, // required
+            image: photo,
+            callbackURL: "/",
+        },
+            {
+                onSuccess: () => {
+                    router.push("/login");
+                }
             }
+        );
 
-            console.log("Account created successfully:", resData);
-
-            // Auto-redirect to your main login node upon completion
-            redirect("/login");
-        } catch (err) {
-            setServerError(err.message);
-        }
+        // if (error) {
+        //     toast.error(error.message);
+        // }
     };
 
     return (
@@ -171,6 +152,26 @@ const RegisterPage = () => {
                             {errors.email && <p className="text-rose-500 text-xs font-medium mt-1 pl-1">{errors.email.message}</p>}
                         </div>
 
+                        {/* photo */}
+                        <div className="space-y-1">
+                            <label className="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400">
+                                Photo URL
+                            </label>
+                            <div className="relative">
+                                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                                    <Mail className="h-4 w-4" />
+                                </div>
+                                <input
+                                    type="text"
+                                    placeholder="Photo Link"
+                                    className={`w-full pl-10 pr-4 py-2.5 bg-slate-50 dark:bg-slate-950 border text-slate-900 dark:text-white text-sm rounded-xl outline-none transition-all ${errors.email ? "border-rose-500 ring-2 ring-rose-500/10" : "border-slate-200 dark:border-slate-800 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10"
+                                        }`}
+                                    {...register("photo")}
+                                />
+                            </div>
+                            {errors.email && <p className="text-rose-500 text-xs font-medium mt-1 pl-1">{errors.email.message}</p>}
+                        </div>
+
                         {/* Password Input Group */}
                         <div className="space-y-1">
                             <label className="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400">
@@ -199,36 +200,6 @@ const RegisterPage = () => {
                                 </button>
                             </div>
                             {errors.password && <p className="text-rose-500 text-xs font-medium mt-1 pl-1">{errors.password.message}</p>}
-                        </div>
-
-                        {/* Confirm Password Input Group */}
-                        <div className="space-y-1">
-                            <label className="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400">
-                                Confirm Password
-                            </label>
-                            <div className="relative">
-                                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
-                                    <Lock className="h-4 w-4" />
-                                </div>
-                                <input
-                                    type={showConfirmPassword ? "text" : "password"}
-                                    placeholder="••••••••"
-                                    className={`w-full pl-10 pr-10 py-2.5 bg-slate-50 dark:bg-slate-950 border text-slate-900 dark:text-white text-sm rounded-xl outline-none transition-all ${errors.confirmPassword ? "border-rose-500 ring-2 ring-rose-500/10" : "border-slate-200 dark:border-slate-800 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10"
-                                        }`}
-                                    {...register("confirmPassword", {
-                                        required: "Please confirm your password configuration",
-                                        validate: (value) => value === passwordValue || "The security passwords do not match",
-                                    })}
-                                />
-                                <button
-                                    type="button"
-                                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                                    className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600 dark:hover:text-slate-300"
-                                >
-                                    {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                                </button>
-                            </div>
-                            {errors.confirmPassword && <p className="text-rose-500 text-xs font-medium mt-1 pl-1">{errors.confirmPassword.message}</p>}
                         </div>
 
                         {/* Submit Control Button Layer */}

@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import Link from "next/link";
 import { Mail, Lock, Eye, EyeOff, Loader2, ArrowRight, CarFront } from "lucide-react";
 import { redirect } from 'next/navigation';
+import { authClient } from '@/lib/auth-client';
 
 const LoginPage = () => {
     const [showPassword, setShowPassword] = useState(false);
@@ -15,41 +16,17 @@ const LoginPage = () => {
         register,
         handleSubmit,
         formState: { errors, isSubmitting },
-    } = useForm({
-        defaultValues: {
-            email: "",
-            password: "",
-        },
-    });
+    } = useForm();
 
     // Handle Login Form Submission
     const onSubmit = async (data) => {
-        try {
-            setServerError(null);
-
-            // Replace this with your actual Express.js authentication route endpoint
-            const response = await fetch(``, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(data),
-            });
-
-            const resData = await response.json();
-
-            if (!response.ok) {
-                throw new Error(resData.message || "Invalid authentication credentials.");
-            }
-
-            // Handle successful login here (e.g., save JWT token, redirect to dashboard)
-            console.log("Login successful! Token:", resData.token);
-
-            // Example redirect using standard routing window context or next/navigation
-            redirect("/");
-        } catch (err) {
-            setServerError(err.message);
-        }
+        const { email, password } = data;
+        const { data: res, error } = await authClient.signIn.email({
+            email: email, // required
+            password: password, // required
+            rememberMe: true,
+            callbackURL: "/",
+        });
     };
 
     return (
@@ -94,8 +71,8 @@ const LoginPage = () => {
                                     type="email"
                                     placeholder="name@example.com"
                                     className={`w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-950 border text-slate-900 dark:text-white text-sm rounded-xl outline-none transition-all ${errors.email
-                                            ? "border-rose-500 focus:border-rose-500 ring-2 ring-rose-500/10"
-                                            : "border-slate-200 dark:border-slate-800 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10"
+                                        ? "border-rose-500 focus:border-rose-500 ring-2 ring-rose-500/10"
+                                        : "border-slate-200 dark:border-slate-800 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10"
                                         }`}
                                     {...register("email", {
                                         required: "Email path validation parameter is required",
@@ -134,8 +111,8 @@ const LoginPage = () => {
                                     type={showPassword ? "text" : "password"}
                                     placeholder="••••••••"
                                     className={`w-full pl-10 pr-10 py-3 bg-slate-50 dark:bg-slate-950 border text-slate-900 dark:text-white text-sm rounded-xl outline-none transition-all ${errors.password
-                                            ? "border-rose-500 focus:border-rose-500 ring-2 ring-rose-500/10"
-                                            : "border-slate-200 dark:border-slate-800 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10"
+                                        ? "border-rose-500 focus:border-rose-500 ring-2 ring-rose-500/10"
+                                        : "border-slate-200 dark:border-slate-800 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10"
                                         }`}
                                     {...register("password", {
                                         required: "Password key payload is required",
