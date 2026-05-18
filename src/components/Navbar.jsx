@@ -64,7 +64,7 @@ const Navbar = () => {
                     <div className="hidden md:flex items-center space-x-8">
                         <Link href="/" className={getLinkStyle("/")}>Home</Link>
                         <Link href="/explore" className={getLinkStyle("/explore")}>Explore Cars</Link>
-                        {isLoggedIn && (
+                        {true && (
                             <>
                                 <Link href="/add-car" className={getLinkStyle("/add-car")}>Add Car</Link>
                                 <Link href="/my-bookings" className={getLinkStyle("/my-bookings")}>My Bookings</Link>

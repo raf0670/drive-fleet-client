@@ -2,9 +2,21 @@ import CarCard from "./CarCard";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { getFeatured } from "@/utils/data";
+import { motion } from "framer-motion";
+import AnimatedGrid from "./AnimateGrid";
 
 export default async function FeaturedCars() {
     const cars = await getFeatured();
+
+    const gridVariants = {
+        hidden: { opacity: 0 },
+        visible: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.15, // This staggers the appearance of cards one after another
+            },
+        },
+    };
 
     return (
         <section className="py-16 md:py-24 bg-slate-50 dark:bg-slate-950 transition-colors duration-300">
@@ -30,11 +42,19 @@ export default async function FeaturedCars() {
                 </div>
 
                 {/* Populated Main Production Cards Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {cars.map((item) => (
-                        <CarCard key={item._id} car={item} />
-                    ))}
-                </div>
+                {cars && cars.length > 0 ? (
+                    <AnimatedGrid>
+                        {cars.map((item) => (
+                            <CarCard key={item._id.toString()} car={JSON.parse(JSON.stringify(item))} />
+                        ))}
+                    </AnimatedGrid>
+                ) : (
+                    <div className="text-center py-16">
+                        <p className="text-slate-500 dark:text-slate-400 text-lg font-medium">
+                            No vehicles currently listed for rent.
+                        </p>
+                    </div>
+                )}
 
             </div>
         </section>
