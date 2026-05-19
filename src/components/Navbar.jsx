@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { redirect, usePathname } from 'next/navigation';
 import React, { useEffect, useRef, useState } from 'react';
+import ThemeToggle from './ThemeToggle';
 
 const Navbar = () => {
     const pathname = usePathname();
@@ -69,7 +70,8 @@ const Navbar = () => {
                     </div>
 
                     {/* Desktop Auth Section */}
-                    <div className="hidden md:flex items-center">
+                    <div className="hidden md:flex items-center space-x-4">
+                        <ThemeToggle></ThemeToggle>
                         {isPending ? (
                             // Skeletal/Loading placeholder while Better-Auth fetches session
                             <div className="h-9 w-9 rounded-full bg-slate-200 dark:bg-slate-700 animate-pulse" />
@@ -140,12 +142,13 @@ const Navbar = () => {
                     {!isPending && (
                         isLoggedIn ? (
                             <div className="border-t border-slate-200 dark:border-slate-700 mt-3 pt-3">
-                                <div className="flex items-center px-3 mb-3">
+                                <div className="flex items-center px-3 mb-3 space-x-4">
                                     <Image className="h-10 w-10 rounded-full object-cover" src={user.image || "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=100&auto=format&fit=crop"} width={1000} height={1000} alt={user.name} />
                                     <div className="ml-3">
                                         <p className="text-base font-medium text-slate-800 dark:text-white">{user.name}</p>
                                         <p className="text-sm font-medium text-slate-500 dark:text-slate-400">{user.email}</p>
                                     </div>
+                                    <ThemeToggle></ThemeToggle>
                                 </div>
                                 <Link href="/add-car" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 rounded-md text-base font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800">Add Car</Link>
                                 <Link href="/my-bookings" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 rounded-md text-base font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800">My Bookings</Link>
@@ -155,7 +158,12 @@ const Navbar = () => {
                                 </button>
                             </div>
                         ) : (
-                            <div className="pt-2 px-3">
+                            <div className="pt-2 px-3 flex flex-col space-y-3">
+                                <div className="flex items-center justify-between">
+                                    <span className="text-sm text-slate-500 dark:text-slate-400 font-medium">Switch Theme</span>
+                                    {/* 3. Embedded inside mobile layout for guest/anonymous users */}
+                                    <ThemeToggle></ThemeToggle>
+                                </div>
                                 <Link href="/login" onClick={() => setIsMobileMenuOpen(false)} className="w-full flex items-center justify-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">
                                     Login
                                 </Link>

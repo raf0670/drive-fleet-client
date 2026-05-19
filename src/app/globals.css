@@ -1,1 +1,40 @@
 @import "tailwindcss";
+
+@variant dark (&:where(.dark, .dark *));
+
+@theme {
+    /* --- Brand Color Identity Tokens --- */
+    --color-brand-primary: #2563eb;
+    /* Smooth corporate blue */
+    --color-brand-hover: #1d4ed8;
+    /* Deep blue for button hovers */
+    --color-brand-accent: #6366f1;
+    /* Indigo accent for blurs and highlights */
+
+    /* --- Custom Surface Colors --- */
+    --color-panel-light: #ffffff;
+    --color-panel-dark: #0f172a;
+    /* Slate 900 for dark mode containers */
+
+    /* --- Border Radius Variables --- */
+    --radius-premium: 1.5rem;
+    /* 24px rounded corners for dashboards */
+    --radius-interactive: 0.75rem;
+    /* 12px rounded corners for inputs/buttons */
+
+    /* --- Extended Smooth Animations --- */
+    --animate-fade-in-up: fade-in-up 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Define standard CSS keyframes for custom animations if needed */
+@keyframes fade-in-up {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

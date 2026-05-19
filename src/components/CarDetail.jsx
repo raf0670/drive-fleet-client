@@ -84,10 +84,9 @@ const CarDetail = ({ car }) => {
 
         const newBookingCount = bookingCount + 1;
 
-        const responseBookCountUpdate = await fetch(`http://localhost:5000/cars/${_id}`, {
+        const responseBookCountUpdate = await fetch(`http://localhost:5000/cars/${_id}/increment-booking`, {
             method: "PATCH",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ bookingCount: newBookingCount })
+            headers: { "Content-Type": "application/json" }
         });
 
 
