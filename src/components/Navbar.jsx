@@ -97,6 +97,7 @@ const Navbar = () => {
                                         <div className="py-1">
                                             <Link href="/add-car" onClick={() => setIsDropdownOpen(false)} className="block px-4 py-2.5 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700/50">Add Car</Link>
                                             <Link href="/my-bookings" onClick={() => setIsDropdownOpen(false)} className="block px-4 py-2.5 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700/50">My Bookings</Link>
+                                            <Link href="/added-cars" onClick={() => setIsDropdownOpen(false)} className="block px-4 py-2.5 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700/50">My Added Cars</Link>
                                         </div>
                                         <div className="py-1">
                                             <button onClick={handleLogout} className="w-full text-left block px-4 py-2.5 text-sm font-medium text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20">

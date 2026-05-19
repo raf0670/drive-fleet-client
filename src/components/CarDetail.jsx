@@ -106,27 +106,6 @@ const CarDetail = ({ car }) => {
                         <ArrowLeft className="h-4 w-4" />
                         <span>Back to Fleet Catalogue</span>
                     </Link>
-
-                    {/* CONTROL INTERFACE PANEL */}
-                    <div className="flex items-center space-x-3">
-                        <button
-                            type="button"
-                            className="inline-flex items-center space-x-1.5 px-4 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 font-bold text-xs rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 transition-all shadow-xs"
-                            onClick={() => console.log("Edit route triggered for ID:", _id)}
-                        >
-                            <Pencil className="h-3.5 w-3.5 text-blue-500" />
-                            <span>Edit</span>
-                        </button>
-
-                        <button
-                            type="button"
-                            className="inline-flex items-center space-x-1.5 px-4 py-2 bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-900/50 text-rose-600 dark:text-rose-400 font-bold text-xs rounded-xl hover:bg-rose-100 dark:hover:bg-rose-950/60 transition-all shadow-xs"
-                            onClick={onDeleteCar}
-                        >
-                            <Trash2 className="h-3.5 w-3.5" />
-                            <span>Delete</span>
-                        </button>
-                    </div>
                 </div>
 
                 {/* Main Grid Wrapper Layout Split */}

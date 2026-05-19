@@ -68,23 +68,19 @@ export default function BookingCard({ booking }) {
         setIsDeleting(true);
         setDeleteError("");
 
-        try {
-            const response = await fetch(
-                `http://localhost:5000/bookings/${_id}`,
-                { method: "DELETE" }
-            );
+        const response = await fetch(
+            `http://localhost:5000/bookings/${_id}`,
+            { method: "DELETE" }
+        );
 
-            if (!response.ok) {
-                throw new Error("Failed to delete booking");
-            }
-
-            setIsModalOpen(false);
-            router.refresh();
-        } catch {
-            setDeleteError("Could not delete this booking. Please try again.");
-        } finally {
-            setIsDeleting(false);
+        if (!response.ok) {
+            throw new Error("Failed to delete booking");
         }
+
+        setIsModalOpen(false);
+        router.refresh();
+
+        setIsDeleting(false);
     };
 
     return (
