@@ -3,7 +3,7 @@ import { ArrowLeft, CarFront, CheckCircle2, Layers, MapPin, Pencil, Trash2, User
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { redirect, useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { authClient } from '@/lib/auth-client';
 
@@ -75,13 +75,12 @@ const CarDetail = ({ car }) => {
             totalPrice: calculateTotalPrice(),
             status: "Pending"
         };
-        console.log(bookingData);
         const response = await fetch("http://localhost:5000/bookings", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(bookingData)
         });
-
+        redirect("/my-bookings");
 
     };
 

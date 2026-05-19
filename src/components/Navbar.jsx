@@ -33,6 +33,7 @@ const Navbar = () => {
         setIsDropdownOpen(false);
         setIsMobileMenuOpen(false);
         await authClient.signOut({});
+        redirect("/login");
     };
 
     const getLinkStyle = (path) => {

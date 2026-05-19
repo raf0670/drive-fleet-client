@@ -32,7 +32,7 @@ const RegisterPage = () => {
         },
             {
                 onSuccess: () => {
-                    router.push("/login");
+                    router.push("/");
                 }
             }
         );

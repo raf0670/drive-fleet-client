@@ -12,3 +12,8 @@ export const getCarDetailByID = async (id) => {
     const res = await fetch(`http://localhost:5000/cars/${id}`);
     return res.json();
 };
+
+export const getBookingsByUserID = async (userID) => {
+    const res = await fetch(`http://localhost:5000/bookings/${userID}`)
+    return res.json();
+};
