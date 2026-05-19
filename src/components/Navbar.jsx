@@ -63,6 +63,7 @@ const Navbar = () => {
                             <>
                                 <Link href="/add-car" className={getLinkStyle("/add-car")}>Add Car</Link>
                                 <Link href="/my-bookings" className={getLinkStyle("/my-bookings")}>My Bookings</Link>
+                                <Link href="/added-cars" className={getLinkStyle("/added-cars")}>My Added Cars</Link>
                             </>
                         )}
                     </div>
@@ -147,6 +148,7 @@ const Navbar = () => {
                                 </div>
                                 <Link href="/add-car" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 rounded-md text-base font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800">Add Car</Link>
                                 <Link href="/my-bookings" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 rounded-md text-base font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800">My Bookings</Link>
+                                <Link href="/added-cars" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 rounded-md text-base font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800">My Added Cars</Link>
                                 <button onClick={handleLogout} className="w-full text-left block px-3 py-2 rounded-md text-base font-medium text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 mt-2">
                                     Logout
                                 </button>
