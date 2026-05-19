@@ -81,7 +81,16 @@ const CarDetail = ({ car }) => {
             body: JSON.stringify(bookingData)
         });
         redirect("/my-bookings");
+    };
 
+    const onDeleteCar = async () => {
+        const res = await fetch(`http://localhost:5000/cars/${_id}`, {
+            method: "DELETE",
+            headers: {
+                "content-type": "application/json"
+            }
+        });
+        redirect("/explore");
     };
 
     return (
@@ -112,7 +121,7 @@ const CarDetail = ({ car }) => {
                         <button
                             type="button"
                             className="inline-flex items-center space-x-1.5 px-4 py-2 bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-900/50 text-rose-600 dark:text-rose-400 font-bold text-xs rounded-xl hover:bg-rose-100 dark:hover:bg-rose-950/60 transition-all shadow-xs"
-                            onClick={() => console.log("Delete verification step triggered for ID:", _id)}
+                            onClick={onDeleteCar}
                         >
                             <Trash2 className="h-3.5 w-3.5" />
                             <span>Delete</span>
