@@ -37,9 +37,9 @@ const RegisterPage = () => {
             }
         );
 
-        // if (error) {
-        //     toast.error(error.message);
-        // }
+        if (error) {
+            toast.error(error.message);
+        }
     };
 
     return (
@@ -189,6 +189,10 @@ const RegisterPage = () => {
                                     {...register("password", {
                                         required: "Password creation payload string is required",
                                         minLength: { value: 6, message: "Password must be at least 6 characters long" },
+                                        validate: {
+                                            hasUppercase: (value) => /[A-Z]/.test(value) || "Password must contain at least one uppercase letter",
+                                            hasLowercase: (value) => /[a-z]/.test(value) || "Password must contain at least one lowercase letter"
+                                        }
                                     })}
                                 />
                                 <button

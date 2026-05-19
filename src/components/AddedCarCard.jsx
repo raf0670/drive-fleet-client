@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 export default function AddedCarCard({ car }) {
     const router = useRouter();
@@ -31,11 +32,11 @@ export default function AddedCarCard({ car }) {
             const res = await fetch(`http://localhost:5000/cars/${_id}`, {
                 method: "DELETE",
             });
-            if (!res.ok) throw new Error("delete failed");
+            toast.error(`${carName} has been deleted!`);
             setIsModalOpen(false);
             router.refresh();
         } catch {
-            alert("Could not delete this car. Please try again.");
+            toast.error("Could not delete this car. Please try again.");
         } finally {
             setIsDeleting(false);
         }

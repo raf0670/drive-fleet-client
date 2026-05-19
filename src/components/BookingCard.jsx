@@ -11,6 +11,7 @@ import {
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 const STATUS_STYLES = {
     Pending: "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20",
@@ -76,6 +77,7 @@ export default function BookingCard({ booking }) {
         if (!response.ok) {
             throw new Error("Failed to delete booking");
         }
+        toast.error(`${carName} has been deleted!`);
 
         setIsModalOpen(false);
         router.refresh();

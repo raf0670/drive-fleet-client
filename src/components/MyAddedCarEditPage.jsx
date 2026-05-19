@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { redirect, useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
 
 export default function MyAddedCarEditPage({ car }) {
@@ -64,6 +65,7 @@ export default function MyAddedCarEditPage({ car }) {
             body: JSON.stringify(payload),
         });
 
+        toast.success(`${data.carName} has been updated!`);
         redirect("/added-cars");
     };
 

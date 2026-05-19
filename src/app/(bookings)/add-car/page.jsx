@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import { authClient } from '@/lib/auth-client';
 import { ArrowLeft, PlusCircle, CarFront, DollarSign, Users, MapPin, FileText, Image as ImageIcon, Layers } from 'lucide-react';
 import Link from 'next/link';
+import { toast } from 'react-toastify';
 
 const AddCar = () => {
     const router = useRouter();
@@ -39,7 +40,7 @@ const AddCar = () => {
             pickupLocation: data.pickupLocation,
             description: data.description,
             availabilityStatus: data.availabilityStatus,
-            bookingCount: 0, // Freshly registered vehicles start with zero logs
+            bookingCount: 0,
             addedBy: user?.id || "Admin"
         };
 
@@ -48,6 +49,8 @@ const AddCar = () => {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(carData)
         });
+
+        toast.success(`${data.carName} has been added!`);
 
         reset();
         redirect("/added-cars");

@@ -13,7 +13,7 @@ const Footer = () => {
                     {/* Column 1: Brand & About */}
                     <div className="space-y-4">
                         <Link href="/" className="text-2xl font-bold tracking-tight text-white">
-                            Drive<span className="text-blue-500">Fleet</span>
+                            Drive<span className="text-blue-500"> Fleet</span>
                         </Link>
                         <p className="text-sm leading-relaxed">
                             Premium car rental services offering a diverse fleet of safe, reliable, and luxury vehicles for any journey. Experience seamless booking today.

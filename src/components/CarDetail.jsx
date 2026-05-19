@@ -6,6 +6,7 @@ import React, { useState } from 'react';
 import { redirect, useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { authClient } from '@/lib/auth-client';
+import { toast } from 'react-toastify';
 
 const CarDetail = ({ car }) => {
     const router = useRouter();
@@ -75,11 +76,22 @@ const CarDetail = ({ car }) => {
             totalPrice: calculateTotalPrice(),
             status: "Pending"
         };
-        const response = await fetch("http://localhost:5000/bookings", {
+        const response = await fetch(`http://localhost:5000/bookings`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(bookingData)
         });
+
+        const newBookingCount = bookingCount + 1;
+
+        const responseBookCountUpdate = await fetch(`http://localhost:5000/cars/${_id}`, {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ bookingCount: newBookingCount })
+        });
+
+
+        toast.success(`${carName} has been booked under ${user?.name}!`);
         redirect("/my-bookings");
     };
 
@@ -176,7 +188,7 @@ const CarDetail = ({ car }) => {
                                     </div>
                                     <div>
                                         <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Bookings</p>
-                                        <p className="text-xs font-bold text-slate-900 dark:text-white">{bookingCount || 0} Times Secured</p>
+                                        <p className="text-xs font-bold text-slate-900 dark:text-white">{bookingCount} Times Secured</p>
                                     </div>
                                 </div>
                             </div>

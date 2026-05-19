@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Mail, Lock, Eye, EyeOff, Loader2, ArrowRight, CarFront } from "lucide-react";
 import { redirect } from 'next/navigation';
 import { authClient } from '@/lib/auth-client';
+import { toast } from 'react-toastify';
 
 const LoginPage = () => {
     const [showPassword, setShowPassword] = useState(false);
@@ -27,6 +28,13 @@ const LoginPage = () => {
             rememberMe: true,
             callbackURL: "/",
         });
+
+        if (error) {
+            toast.error(error.message);
+        } else {
+            toast.success("Logged In successfully!");
+        }
+
     };
 
     const googleLogIn = async () => {
