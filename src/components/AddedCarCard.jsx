@@ -110,7 +110,7 @@ export default function AddedCarCard({ car }) {
 
                 <div className="mt-5 pt-4 border-t border-slate-100 dark:border-slate-800/60 flex gap-2">
                     <Link
-                        href={`/cars/${_id}`}
+                        href={`/added-cars/${_id}`}
                         className="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2 text-sm font-semibold rounded-lg bg-slate-900 hover:bg-slate-800 dark:bg-blue-600 dark:hover:bg-blue-700 text-white transition-all"
                     >
                         <Pencil className="h-4 w-4" />
