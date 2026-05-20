@@ -11,11 +11,9 @@ import { toast } from 'react-toastify';
 const AddCar = () => {
     const router = useRouter();
 
-    // Verify user session
     const { data: session, isPending } = authClient.useSession();
     const user = session?.user;
 
-    // React Hook Form initialization
     const { register, handleSubmit, formState: { errors }, reset } = useForm({
         defaultValues: {
             carName: "",
@@ -29,7 +27,6 @@ const AddCar = () => {
         }
     });
 
-    // Client form processor firing data directly to Express Backend pipeline
     const onSubmitCar = async (data) => {
         const carData = {
             carName: data.carName,
@@ -59,7 +56,6 @@ const AddCar = () => {
 
         reset();
         redirect("/added-cars");
-        // router.push("/added-cars");
     };
 
     if (isPending) return <div className="min-h-screen flex items-center justify-center dark:bg-slate-950 text-xs font-bold">Verifying Workspace Identity...</div>;
@@ -68,7 +64,6 @@ const AddCar = () => {
         <div className="min-h-screen bg-slate-50 dark:bg-slate-950 py-12 px-4 sm:px-6 lg:px-8 transition-colors duration-300">
             <div className="max-w-3xl mx-auto space-y-6">
 
-                {/* Back Link */}
                 <div className="flex items-center justify-between">
                     <Link
                         href="/explore"
@@ -79,10 +74,8 @@ const AddCar = () => {
                     </Link>
                 </div>
 
-                {/* Main Input Card Layout Container */}
                 <div className="bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800/60 rounded-3xl overflow-hidden shadow-xl">
 
-                    {/* Form Identity Heading block */}
                     <div className="bg-slate-900 dark:bg-slate-950 p-6 text-white flex items-center space-x-3">
                         <div className="p-2.5 bg-slate-800 dark:bg-slate-900 rounded-xl text-blue-500">
                             <CarFront className="h-5 w-5" />
@@ -93,12 +86,10 @@ const AddCar = () => {
                         </div>
                     </div>
 
-                    {/* Registration Entry Field Matrix */}
                     <form onSubmit={handleSubmit(onSubmitCar)} className="p-6 sm:p-8 space-y-6">
 
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
 
-                            {/* Car Name Field */}
                             <div className="space-y-1.5">
                                 <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 flex items-center">
                                     <CarFront className="h-3 w-3 mr-1 text-slate-400" /> Vehicle Model Name
@@ -112,7 +103,6 @@ const AddCar = () => {
                                 {errors.carName && <span className="text-[10px] font-bold text-rose-500">Model descriptor identifier field required.</span>}
                             </div>
 
-                            {/* Car Type Selector Select Input */}
                             <div className="space-y-1.5">
                                 <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 flex items-center">
                                     <Layers className="h-3 w-3 mr-1 text-slate-400" /> Vehicle Classification
@@ -131,7 +121,6 @@ const AddCar = () => {
                                 </select>
                             </div>
 
-                            {/* Operational Rental Cost Field */}
                             <div className="space-y-1.5">
                                 <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 flex items-center">
                                     <DollarSign className="h-3 w-3 mr-1 text-slate-400" /> Daily Rent Tariff (USD)
@@ -146,7 +135,6 @@ const AddCar = () => {
                                 {errors.dailyPrice && <span className="text-[10px] font-bold text-rose-500">Numeric tariff declaration required.</span>}
                             </div>
 
-                            {/* Passenger Seating Row Bounds Input */}
                             <div className="space-y-1.5">
                                 <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 flex items-center">
                                     <Users className="h-3 w-3 mr-1 text-slate-400" /> Passenger Seating Capacity
@@ -161,7 +149,6 @@ const AddCar = () => {
                                 {errors.seatCapacity && <span className="text-[10px] font-bold text-rose-500">Integer seat indexing calculation required.</span>}
                             </div>
 
-                            {/* Geographic Hub Pickup Location Field */}
                             <div className="space-y-1.5 sm:col-span-2">
                                 <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 flex items-center">
                                     <MapPin className="h-3 w-3 mr-1 text-slate-400" /> Geographic Deployment Hub
@@ -175,7 +162,6 @@ const AddCar = () => {
                                 {errors.pickupLocation && <span className="text-[10px] font-bold text-rose-500">Geographic dispatch zone declaration tracking point required.</span>}
                             </div>
 
-                            {/* Image Asset CDN URL Field */}
                             <div className="space-y-1.5 sm:col-span-2">
                                 <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 flex items-center">
                                     <ImageIcon className="h-3 w-3 mr-1 text-slate-400" /> Vector Showcase Image CDN Link
@@ -188,7 +174,6 @@ const AddCar = () => {
                                 />
                             </div>
 
-                            {/* Availability Toggle Field */}
                             <div className="space-y-1.5 sm:col-span-2">
                                 <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Immediate Deployment Availability</label>
                                 <div className="grid grid-cols-2 gap-3">
@@ -207,7 +192,6 @@ const AddCar = () => {
                                 </div>
                             </div>
 
-                            {/* Technical Description Specification Memo field */}
                             <div className="space-y-1.5 sm:col-span-2">
                                 <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 flex items-center">
                                     <FileText className="h-3 w-3 mr-1 text-slate-400" /> Premium Specifications & Portfolio Overview
@@ -222,7 +206,6 @@ const AddCar = () => {
 
                         </div>
 
-                        {/* Actions Control Submission Footer Bar */}
                         <div className="pt-4 border-t border-slate-100 dark:border-slate-800 flex justify-end">
                             <button
                                 type="submit"
@@ -232,7 +215,6 @@ const AddCar = () => {
                                 <span>Publish Car into System</span>
                             </button>
                         </div>
-
                     </form>
                 </div>
             </div>

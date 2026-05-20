@@ -12,22 +12,10 @@ const CarDetail = ({ car }) => {
     const router = useRouter();
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const {
-        _id,
-        carName,
-        dailyPrice,
-        carType,
-        imageUrl,
-        seatCapacity,
-        pickupLocation,
-        description,
-        availabilityStatus,
-        bookingCount,
-    } = car;
+    const { _id, carName, dailyPrice, carType, imageUrl, seatCapacity, pickupLocation, description, availabilityStatus, bookingCount } = car;
 
     const isAvailable = availabilityStatus === "Available";
 
-    // 1. Initialize react-hook-form with default values
     const { register, handleSubmit, watch } = useForm({
         defaultValues: {
             startDate: "",
@@ -37,17 +25,14 @@ const CarDetail = ({ car }) => {
         }
     });
 
-    // 2. Watch active fields to calculate pricing dynamics on-the-fly
     // eslint-disable-next-line react-hooks/incompatible-library
     const watchedStartDate = watch("startDate");
     const watchedEndDate = watch("endDate");
     const watchedDriverNeeded = watch("driverNeeded");
 
-    // Session Verification Hooks
     const { data: session } = authClient.useSession();
     const user = session?.user;
 
-    // Live dynamic calculation using watched values
     const calculateTotalPrice = () => {
         if (!watchedStartDate || !watchedEndDate) return dailyPrice;
         const start = new Date(watchedStartDate);
@@ -58,7 +43,6 @@ const CarDetail = ({ car }) => {
         return baseCost + driverPremium;
     };
 
-    // 3. react-hook-form submit handler
     const onSubmitBooking = async (data) => {
         const bookingData = {
             userID: user?.id,
@@ -108,7 +92,6 @@ const CarDetail = ({ car }) => {
         <div className="min-h-screen bg-slate-50 dark:bg-slate-950 py-12 px-4 sm:px-6 lg:px-8 transition-colors duration-300">
             <div className="max-w-6xl mx-auto space-y-6">
 
-                {/* Navigation Toolbar Link Row */}
                 <div className="flex items-center justify-between">
                     <Link
                         href="/explore"
@@ -119,10 +102,8 @@ const CarDetail = ({ car }) => {
                     </Link>
                 </div>
 
-                {/* Main Grid Wrapper Layout Split */}
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800/60 rounded-3xl overflow-hidden shadow-xl">
 
-                    {/* LEFT SIDE COLUMN: Image Showcase */}
                     <div className="lg:col-span-7 relative bg-slate-100 dark:bg-slate-950 min-h-80 sm:min-h-110 flex items-center justify-center p-6">
                         <Image
                             src={imageUrl || "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&q=80&w=800"}
@@ -143,7 +124,6 @@ const CarDetail = ({ car }) => {
                         </div>
                     </div>
 
-                    {/* RIGHT SIDE COLUMN: Information Panels */}
                     <div className="lg:col-span-5 p-8 sm:p-10 flex flex-col justify-between space-y-8">
                         <div className="space-y-4">
                             <div>
@@ -202,7 +182,6 @@ const CarDetail = ({ car }) => {
                             </p>
                         </div>
 
-                        {/* Booking Trigger Action Button */}
                         <div className="pt-4">
                             <button
                                 type="button"
@@ -218,7 +197,6 @@ const CarDetail = ({ car }) => {
                 </div>
             </div>
 
-            {/* POPUP OVERLAY DIALOG MODAL INTERFACE */}
             {isModalOpen && (
                 <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-950/60 backdrop-blur-xs flex items-center justify-center p-4">
                     <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 w-full max-w-lg rounded-3xl shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
@@ -240,7 +218,6 @@ const CarDetail = ({ car }) => {
                             </button>
                         </div>
 
-                        {/* Modal Data Fields Form Wrapper linked to handleSubmit */}
                         <form onSubmit={handleSubmit(onSubmitBooking)} className="p-6 space-y-5">
 
                             {/* Static Account Read-Only Meta */}
@@ -252,7 +229,6 @@ const CarDetail = ({ car }) => {
                                 </div>
                             </div>
 
-                            {/* Date Picker Range Row */}
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="space-y-1">
                                     <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 flex items-center">
@@ -279,7 +255,6 @@ const CarDetail = ({ car }) => {
                                 </div>
                             </div>
 
-                            {/* Driver Needed (Yes/No Selection Option) */}
                             <div className="space-y-1">
                                 <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Driver Assistance Needed?</label>
                                 <div className="grid grid-cols-2 gap-3">
@@ -300,7 +275,6 @@ const CarDetail = ({ car }) => {
                                 </div>
                             </div>
 
-                            {/* Special Note Box field */}
                             <div className="space-y-1">
                                 <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 flex items-center">
                                     <FileText className="h-3 w-3 mr-1 text-slate-400" /> Special Note / Instructions
@@ -313,7 +287,6 @@ const CarDetail = ({ car }) => {
                                 />
                             </div>
 
-                            {/* Price Estimator Summary Display Card */}
                             <div className="bg-slate-50 dark:bg-slate-950 border border-slate-200/60 dark:border-slate-800/60 p-3 rounded-xl flex items-center justify-between text-xs">
                                 <span className="font-bold text-slate-500">Estimated Invoice total:</span>
                                 <span className="text-base font-black text-emerald-600 dark:text-emerald-400">
@@ -321,7 +294,6 @@ const CarDetail = ({ car }) => {
                                 </span>
                             </div>
 
-                            {/* Actions Footer */}
                             <div className="pt-3 border-t border-slate-100 dark:border-slate-800 flex justify-end space-x-3">
                                 <button
                                     type="button"

@@ -7,12 +7,10 @@ export default function Error({ reset }) {
         <div className="min-h-screen w-full flex items-center justify-center p-4 bg-slate-50 dark:bg-slate-950 transition-colors duration-300">
             <div className="max-w-md w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-8 shadow-xl text-center space-y-6 animate-in fade-in zoom-in-95 duration-200">
 
-                {/* Error Illustration Icon Group */}
                 <div className="mx-auto w-16 h-16 bg-rose-50 dark:bg-rose-950/30 border border-rose-100 dark:border-rose-900/50 rounded-2xl flex items-center justify-center text-rose-500 shadow-xs">
                     <AlertTriangle className="h-8 w-8" />
                 </div>
 
-                {/* Typography Descriptive Module */}
                 <div className="space-y-2">
                     <h2 className="text-xl font-black tracking-tight text-slate-900 dark:text-white">
                         Logistical Execution Fault
@@ -22,7 +20,6 @@ export default function Error({ reset }) {
                     </p>
                 </div>
 
-                {/* Control Call-to-Action Grid */}
                 <div className="grid grid-cols-2 gap-3 pt-2">
                     <button
                         type="button"

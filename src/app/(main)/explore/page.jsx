@@ -9,13 +9,11 @@ const AllCars = async ({ searchParams }) => {
     const type = resolvedParams?.type || "";
     // console.log(resolvedParams);
     const cars = await getAllCars(search, type);
-    // console.log(cars);
 
     return (
         <div className="min-h-screen bg-slate-50 dark:bg-slate-950 py-12 md:py-16 transition-colors duration-300">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-                {/* Section Heading Header */}
                 <div className="mb-12 border-b border-slate-200/60 dark:border-slate-800/60 pb-6">
                     <span className="text-xs font-bold uppercase tracking-widest text-blue-600 dark:text-blue-400">
                         Complete Fleet Catalogue
@@ -30,7 +28,6 @@ const AllCars = async ({ searchParams }) => {
 
                 <FilterControls currentSearch={search} currentType={type}></FilterControls>
 
-                {/* Master Responsive Display Grid Viewport */}
                 {cars && cars.length > 0 ? (
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                         {cars.map((item) => (
@@ -50,7 +47,6 @@ const AllCars = async ({ searchParams }) => {
                         </p>
                     </div>
                 )}
-
             </div>
         </div>
     );

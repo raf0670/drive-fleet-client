@@ -29,7 +29,6 @@ const Navbar = () => {
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, []);
 
-    // 2. Use Better-Auth's sign-out method
     const handleLogout = async () => {
         setIsDropdownOpen(false);
         setIsMobileMenuOpen(false);
@@ -49,14 +48,12 @@ const Navbar = () => {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between h-16 items-center">
 
-                    {/* Logo */}
                     <div className="shrink-0 flex items-center">
                         <Link href="/" className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
                             Drive<span className="text-blue-600 dark:text-blue-500"> Fleet</span>
                         </Link>
                     </div>
 
-                    {/* Desktop Navigation */}
                     <div className="hidden md:flex items-center space-x-8">
                         <Link href="/" className={getLinkStyle("/")}>Home</Link>
                         <Link href="/explore" className={getLinkStyle("/explore")}>Explore Cars</Link>
@@ -69,7 +66,6 @@ const Navbar = () => {
                         )}
                     </div>
 
-                    {/* Desktop Auth Section */}
                     <div className="hidden md:flex items-center space-x-4">
                         <ThemeToggle></ThemeToggle>
                         {isPending ? (
@@ -116,7 +112,6 @@ const Navbar = () => {
                         )}
                     </div>
 
-                    {/* Mobile Menu Button */}
                     <div className="flex items-center md:hidden">
                         <button
                             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -133,7 +128,6 @@ const Navbar = () => {
                 </div>
             </div>
 
-            {/* Mobile Menu */}
             {isMobileMenuOpen && (
                 <div className="md:hidden bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 px-2 pt-2 pb-4 space-y-1">
                     <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 rounded-md text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800">Home</Link>
@@ -161,7 +155,6 @@ const Navbar = () => {
                             <div className="pt-2 px-3 flex flex-col space-y-3">
                                 <div className="flex items-center justify-between">
                                     <span className="text-sm text-slate-500 dark:text-slate-400 font-medium">Switch Theme</span>
-                                    {/* 3. Embedded inside mobile layout for guest/anonymous users */}
                                     <ThemeToggle></ThemeToggle>
                                 </div>
                                 <Link href="/login" onClick={() => setIsMobileMenuOpen(false)} className="w-full flex items-center justify-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">

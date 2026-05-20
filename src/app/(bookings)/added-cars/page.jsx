@@ -16,8 +16,6 @@ export default async function AddedCarsPage() {
         ? allCars.filter((car) => String(car.addedBy) === String(userId))
         : [];
 
-    // console.log(allCars);
-
     return (
         <div className="min-h-screen bg-slate-50 dark:bg-slate-950 py-12 md:py-16 transition-colors duration-300">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

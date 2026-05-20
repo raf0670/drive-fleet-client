@@ -10,16 +10,13 @@ const FilterControls = ({ currentSearch, currentType }) => {
 
     const [search, setSearch] = useState(currentSearch);
 
-    // Track multi-select vehicle types as an array
     const [selectedTypes, setSelectedTypes] = useState(
         currentType ? currentType.split(',') : []
     );
 
-    // List of car types available in your fleet database
     const carCategories = ['Compact SUV', 'Full-Size SUV', 'Electric SUV', 'Sedan', 'Sports', 'Sport Sedan', 'Executive Sedan', 'Microbus', 'Van'];
 
     useEffect(() => {
-        // Skip the initial mount run if search is empty to avoid redundant URL state pushes
         if (!search && !searchParams.get('search')) return;
 
         const delayDebounceFn = setTimeout(() => {
@@ -35,9 +32,9 @@ const FilterControls = ({ currentSearch, currentType }) => {
         }, 400);
 
         return () => clearTimeout(delayDebounceFn);
-    }, [search]); // ONLY track the text string shifts here
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [search]);
 
-    // Handle when checkbox selections change
     const handleTypeChange = (category) => {
         let updatedTypes = [...selectedTypes];
         if (updatedTypes.includes(category)) {
@@ -49,7 +46,6 @@ const FilterControls = ({ currentSearch, currentType }) => {
         updateUrlParams(search, updatedTypes);
     };
 
-    // Push new parameters smoothly into Next.js router
     const updateUrlParams = (searchText, typeArray) => {
         const params = new URLSearchParams(searchParams.toString());
 
@@ -60,18 +56,16 @@ const FilterControls = ({ currentSearch, currentType }) => {
         }
 
         if (typeArray.length > 0) {
-            params.set('type', typeArray.join(',')); // Joins array into "SUV,Sedan"
+            params.set('type', typeArray.join(','));
         } else {
             params.delete('type');
         }
 
-        // Pushes the clean URL (e.g. /cars?search=tesla&type=Electric) without reloading page state
         router.push(`${pathname}?${params.toString()}`, { scroll: false });
     };
 
     return (
         <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200/80 dark:border-slate-800/80 space-y-4 shadow-sm mb-10">
-            {/* Search Input field */}
             <div>
                 <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-2">
                     Search Fleet
@@ -85,7 +79,6 @@ const FilterControls = ({ currentSearch, currentType }) => {
                 />
             </div>
 
-            {/* Filter Checkboxes */}
             <div>
                 <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-2">
                     Filter by Vehicle Type

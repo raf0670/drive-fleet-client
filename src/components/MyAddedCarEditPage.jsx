@@ -14,19 +14,7 @@ export default function MyAddedCarEditPage({ car }) {
     const { data: session, isPending } = authClient.useSession();
     const user = session?.user;
 
-    const {
-        _id,
-        carName,
-        dailyPrice,
-        carType,
-        imageUrl,
-        seatCapacity,
-        pickupLocation,
-        description,
-        availabilityStatus,
-        bookingCount,
-        addedBy,
-    } = car;
+    const { _id, carName, dailyPrice, carType, imageUrl, seatCapacity, pickupLocation, description, availabilityStatus, bookingCount, addedBy } = car;
 
     const {
         register,

@@ -19,14 +19,13 @@ const RegisterPage = () => {
         formState: { errors, isSubmitting },
     } = useForm();
 
-    // Handle Account Registration Submission
     const onSubmit = async (data) => {
         const { name, photo, email, password } = data;
 
         const { data: res, error } = await authClient.signUp.email({
-            name: name, // required
-            email: email, // required
-            password: password, // required
+            name: name,
+            email: email,
+            password: password,
             image: photo,
             callbackURL: "/",
         },
@@ -46,18 +45,15 @@ const RegisterPage = () => {
         <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex items-center justify-center p-4 sm:p-6 lg:p-8 transition-colors duration-300">
             <div className="w-full max-w-5xl bg-white dark:bg-slate-900 rounded-3xl overflow-hidden shadow-xl border border-slate-200/60 dark:border-slate-800/60 grid grid-cols-1 md:grid-cols-2">
 
-                {/* LEFT SIDE: Brand Showcase & Features (Flipped position to vary look from login) */}
                 <div className="hidden md:flex relative bg-slate-900 dark:bg-slate-950 p-12 overflow-hidden flex-col justify-between text-white">
                     <div className="absolute top-0 left-0 w-80 h-80 bg-blue-600/10 rounded-full blur-3xl pointer-events-none" />
                     <div className="absolute bottom-0 right-0 w-80 h-80 bg-indigo-600/10 rounded-full blur-3xl pointer-events-none" />
 
-                    {/* Logo brand */}
                     <div className="relative z-10 flex items-center space-x-2">
                         <CarFront className="h-7 w-7 text-blue-400" />
                         <span className="font-black text-2xl tracking-tight">DriveEase</span>
                     </div>
 
-                    {/* Core App Commitments */}
                     <div className="relative z-10 space-y-6 my-auto max-w-sm">
                         <h2 className="text-2xl font-black tracking-tight text-slate-100">
                             Unlock Your Premium Rental Access Panel
@@ -81,7 +77,6 @@ const RegisterPage = () => {
                     </div>
                 </div>
 
-                {/* RIGHT SIDE: Interactive Registration Submission Form */}
                 <div className="p-8 sm:p-12 flex flex-col justify-center">
                     <div className="space-y-2 mb-6">
                         <div className="flex items-center space-x-2 text-blue-600 dark:text-blue-400 md:hidden mb-4">
@@ -96,17 +91,14 @@ const RegisterPage = () => {
                         </p>
                     </div>
 
-                    {/* Server API Error Message Hook Banner */}
                     {serverError && (
                         <div className="mb-4 p-4 rounded-xl bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-800/50 text-rose-600 dark:text-rose-400 text-xs font-semibold">
                             {serverError}
                         </div>
                     )}
 
-                    {/* Form Implementation Engine */}
                     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" noValidate>
 
-                        {/* Full Name Input Group */}
                         <div className="space-y-1">
                             <label className="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400">
                                 Full Name
@@ -126,7 +118,6 @@ const RegisterPage = () => {
                             {errors.name && <p className="text-rose-500 text-xs font-medium mt-1 pl-1">{errors.name.message}</p>}
                         </div>
 
-                        {/* Email Input Group */}
                         <div className="space-y-1">
                             <label className="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400">
                                 Email Address
@@ -152,7 +143,6 @@ const RegisterPage = () => {
                             {errors.email && <p className="text-rose-500 text-xs font-medium mt-1 pl-1">{errors.email.message}</p>}
                         </div>
 
-                        {/* photo */}
                         <div className="space-y-1">
                             <label className="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400">
                                 Photo URL
@@ -172,7 +162,6 @@ const RegisterPage = () => {
                             {errors.email && <p className="text-rose-500 text-xs font-medium mt-1 pl-1">{errors.email.message}</p>}
                         </div>
 
-                        {/* Password Input Group */}
                         <div className="space-y-1">
                             <label className="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400">
                                 Password
@@ -206,7 +195,6 @@ const RegisterPage = () => {
                             {errors.password && <p className="text-rose-500 text-xs font-medium mt-1 pl-1">{errors.password.message}</p>}
                         </div>
 
-                        {/* Submit Control Button Layer */}
                         <button
                             type="submit"
                             disabled={isSubmitting}
@@ -226,7 +214,6 @@ const RegisterPage = () => {
                         </button>
                     </form>
 
-                    {/* Alternate Redirection Route Footer Link */}
                     <p className="text-center text-sm text-slate-500 dark:text-slate-400 mt-6">
                         Already have an account?{" "}
                         <Link
@@ -237,7 +224,6 @@ const RegisterPage = () => {
                         </Link>
                     </p>
                 </div>
-
             </div>
         </div>
     );

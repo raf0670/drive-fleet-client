@@ -8,7 +8,6 @@ export default function ThemeToggle() {
     const { theme, setTheme, resolvedTheme } = useTheme();
     const [mounted, setMounted] = useState(false);
 
-    // Ensure component is mounted on client to prevent layout shifts
     useEffect(() => {
         // eslint-disable-next-line react-hooks/set-state-in-effect
         setMounted(true);
@@ -20,7 +19,6 @@ export default function ThemeToggle() {
         );
     }
 
-    // fallback check matching system preferences accurately
     const isDark = resolvedTheme === "dark";
 
     return (
