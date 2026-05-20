@@ -1,36 +1,115 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Drive Fleet Client
 
-## Getting Started
+> A modern vehicle booking and fleet management portal built with Next.js, MongoDB, and Better Auth.
 
-First, run the development server:
+## 🚗 What is Drive Fleet?
+
+Drive Fleet is a polished client-side application for browsing, booking, and managing fleet vehicles. It supports:
+
+- Secure authentication with email/password and Google social login
+- Protected user dashboards for bookings and vehicle management
+- Adding new cars to the fleet catalog
+- Searching and filtering vehicles by type and keywords
+- Light/dark theme switching and responsive UI
+- Real-time toast notifications for actions
+
+## ✨ Key Features
+
+- **Homepage:** branded landing experience with featured cars, workflow sections, and conversion CTA
+- **Explore Cars:** searchable, filterable vehicle catalogue built with dynamic server-side data fetching
+- **Add Car:** authenticated car registration form with structured vehicle metadata
+- **My Bookings:** user-only booking dashboard via Better Auth session and middleware protection
+- **My Added Cars:** list and manage vehicles added by the signed-in user
+- **Auth pages:** modern login and registration experience with form validation
+- **Theme support:** `next-themes` powered dark/light mode toggle
+
+## 🧩 Tech Stack
+
+- `next` 16.2.6 — Next.js App Router
+- `react` 19.2.4 / `react-dom` 19.2.4
+- `tailwindcss` ^4 with `@tailwindcss/postcss`
+- `better-auth` + `@better-auth/mongo-adapter` — authentication and user session handling
+- `mongodb` — backend fleet data persistence
+- `react-hook-form` — client-side form validation
+- `react-toastify` — feedback notifications
+- `framer-motion` — subtle animations across UI components
+- `lucide-react` — modern iconography
+- `next-themes` — theme switching
+
+## 🧠 App Architecture
+
+- `src/app/(main)` — public home and explore routes
+- `src/app/(auth)` — login and registration pages
+- `src/app/(bookings)` — protected customer booking pages and vehicle management
+- `src/components` — reusable UI building blocks like `Navbar`, `CarCard`, `FilterControls`, `Banner`, and more
+- `src/lib/auth-client.js` — Better Auth client configuration
+- `src/utils/data.js` — remote vehicle API helpers
+- `src/proxy.js` — middleware-style route protection for authenticated pages
+
+## 🔐 Authentication
+
+The app uses Better Auth with JWT support. User sessions are fetched client-side with `authClient.useSession()` and protected routes are enforced using `src/proxy.js`.
+
+Protected pages include:
+
+- `/my-bookings`
+- `/added-cars/*`
+- `/add-car`
+- `/my-profile/*`
+- `/cars/[carID]`
+
+## ⚙️ Environment Variables
+
+Create a `.env.local` file with at least:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+NEXT_PUBLIC_SERVER_URL=https://your-api-server.com
+BETTER_AUTH_URL=https://your-better-auth-server.com
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🚀 Run Locally
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+Install dependencies and start the development server:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm install
+npm run dev
+```
 
-## Learn More
+Open `http://localhost:3000` in your browser.
 
-To learn more about Next.js, take a look at the following resources:
+## ✅ Recommended Workflow
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Sign up or log in via `/register` or `/login`
+2. Explore vehicle inventory at `/explore`
+3. Add a new car through `/add-car`
+4. View your bookings at `/my-bookings`
+5. Manage owned fleet vehicles in `/added-cars`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🛠️ Notes
 
-## Deploy on Vercel
+- `src/utils/data.js` fetches fleet data from the configured backend API
+- `src/app/layout.js` sets up global theming and toast notifications
+- `Navbar` adapts navigation links based on auth state
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 📦 Scripts
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+npm run dev      # start development server
+npm run build    # create production build
+npm run start    # run production server
+npm run lint     # run ESLint checks
+```
+
+## 🌟 Why this project stands out
+
+Drive Fleet blends modern Next.js patterns with authenticated fleet management flows. It’s ideal for vehicle rental, logistics dashboards, or admin fleet portals that require:
+
+- mobile-first responsive UI
+- authenticated user workflows
+- clean filtering and catalogue experiences
+- reusable, component-based architecture
+
+---
+
+Built with passion for seamless fleet booking and vehicle management. Keep iterating and make it your own!
