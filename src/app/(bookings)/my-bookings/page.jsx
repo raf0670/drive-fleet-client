@@ -26,7 +26,7 @@ const MyBookings = async () => {
 
     const bookings = await res.json();
 
-    const pendingCount = bookings.filter((b) => b.status === "Pending").length;
+    const pendingCount = bookings.length;
 
     return (
         <div className="min-h-screen bg-slate-50 dark:bg-slate-950 py-12 md:py-16 transition-colors duration-300">
