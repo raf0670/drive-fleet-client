@@ -1,5 +1,6 @@
 "use client";
 
+import { authClient } from "@/lib/auth-client";
 import { CheckCircle2, MapPin, Pencil, Trash2, Users, X, XCircle } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -28,9 +29,15 @@ export default function AddedCarCard({ car }) {
 
     const handleDelete = async () => {
         setIsDeleting(true);
+
+        const {data:tokenData} = await authClient.token()
+
         try {
             const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/cars/${_id}`, {
                 method: "DELETE",
+                headers: {
+                    authorization: `Bearer ${tokenData?.token}`
+                }
             });
             toast.error(`${carName} has been deleted!`);
             setIsModalOpen(false);

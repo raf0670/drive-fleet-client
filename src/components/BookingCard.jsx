@@ -1,5 +1,6 @@
 "use client";
 
+import { authClient } from "@/lib/auth-client";
 import {
     Calendar,
     Clock,
@@ -69,9 +70,14 @@ export default function BookingCard({ booking }) {
         setIsDeleting(true);
         setDeleteError("");
 
-        const response = await fetch(
-            `${process.env.NEXT_PUBLIC_SERVER_URL}/bookings/${_id}`,
-            { method: "DELETE" }
+        const {data:tokenData} = await authClient.token()
+
+        const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/bookings/${_id}`, {
+                method: "DELETE",
+                headers: {
+                    authorization: `Bearer ${tokenData?.token}`
+                }
+            }
         );
 
         if (!response.ok) {

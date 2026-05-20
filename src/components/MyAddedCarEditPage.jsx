@@ -58,10 +58,14 @@ export default function MyAddedCarEditPage({ car }) {
             bookingCount: bookingCount ?? 0,
             addedBy: addedBy ?? user?.id ?? "",
         };
+        const {data:tokenData} = await authClient.token();
 
         const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/cars/${_id}`, {
             method: "PATCH",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+                "Content-Type": "application/json",
+                authorization: `Bearer ${tokenData?.token}`
+            },
             body: JSON.stringify(payload),
         });
 

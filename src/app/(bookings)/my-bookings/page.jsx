@@ -1,6 +1,5 @@
 import BookingCard from "@/components/BookingCard";
 import { auth } from "@/lib/auth";
-import { getBookingsByUserID } from "@/utils/data";
 import { CalendarCheck, CarFront } from "lucide-react";
 import { headers } from "next/headers";
 import Link from "next/link";
@@ -13,7 +12,19 @@ const MyBookings = async () => {
     const user = session?.user;
     const id = user?.id;
 
-    const bookings = await getBookingsByUserID(id);
+    const { token } = await auth.api.getToken({
+        headers: await headers()
+    });
+
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/bookings/${id}`,
+        {
+            headers: {
+                authorization: `Bearer ${token}`
+            }
+        }
+    )
+
+    const bookings = await res.json();
 
     const pendingCount = bookings.filter((b) => b.status === "Pending").length;
 

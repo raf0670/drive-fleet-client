@@ -1,11 +1,24 @@
 import MyAddedCarEditPage from "@/components/MyAddedCarEditPage";
-import { getCarDetailByID } from "@/utils/data";
 import Link from "next/link";
 import { CarFront } from "lucide-react";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 
 export default async function AddedCarEditRoute({ params }) {
     const { myCarID } = await params;
-    const car = await getCarDetailByID(myCarID);
+    const { token } = await auth.api.getToken({
+        headers: await headers()
+    });
+
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/cars/${myCarID}`,
+        {
+            headers: {
+                authorization: `Bearer ${token}`
+            }
+        }
+    );
+
+    const car = await res.json();
 
     if (!car?._id) {
         return (
