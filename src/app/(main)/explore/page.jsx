@@ -1,9 +1,15 @@
 import CarCard from '@/components/CarCard';
+import FilterControls from '@/components/FilterControls';
 import { getAllCars } from '@/utils/data';
 import React from 'react';
 
-const AllCars = async () => {
-    const cars = await getAllCars();
+const AllCars = async ({ searchParams }) => {
+    const resolvedParams = await searchParams;
+    const search = resolvedParams?.search || "";
+    const type = resolvedParams?.type || "";
+    // console.log(resolvedParams);
+    const cars = await getAllCars(search, type);
+    // console.log(cars);
 
     return (
         <div className="min-h-screen bg-slate-50 dark:bg-slate-950 py-12 md:py-16 transition-colors duration-300">
@@ -21,6 +27,8 @@ const AllCars = async () => {
                         Browse through our full directory of available transit options and premium rentals.
                     </p>
                 </div>
+
+                <FilterControls currentSearch={search} currentType={type}></FilterControls>
 
                 {/* Master Responsive Display Grid Viewport */}
                 {cars && cars.length > 0 ? (
