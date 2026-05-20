@@ -76,7 +76,7 @@ const CarDetail = ({ car }) => {
             totalPrice: calculateTotalPrice(),
             status: "Pending"
         };
-        const response = await fetch(`http://localhost:5000/bookings`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/bookings`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(bookingData)
@@ -84,7 +84,7 @@ const CarDetail = ({ car }) => {
 
         const newBookingCount = bookingCount + 1;
 
-        const responseBookCountUpdate = await fetch(`http://localhost:5000/cars/${_id}/increment-booking`, {
+        const responseBookCountUpdate = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/cars/${_id}/increment-booking`, {
             method: "PATCH",
             headers: { "Content-Type": "application/json" }
         });
@@ -95,7 +95,7 @@ const CarDetail = ({ car }) => {
     };
 
     const onDeleteCar = async () => {
-        const res = await fetch(`http://localhost:5000/cars/${_id}`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/cars/${_id}`, {
             method: "DELETE",
             headers: {
                 "content-type": "application/json"

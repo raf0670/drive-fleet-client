@@ -44,7 +44,8 @@ const AddCar = () => {
             addedBy: user?.id || "Admin"
         };
 
-        const response = await fetch("http://localhost:5000/cars", {
+        console.log(carData);
+        const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/cars`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(carData)
