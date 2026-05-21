@@ -11,6 +11,7 @@ import { toast } from 'react-toastify';
 const CarDetail = ({ car }) => {
     const router = useRouter();
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const { _id, carName, dailyPrice, carType, imageUrl, seatCapacity, pickupLocation, description, availabilityStatus, bookingCount } = car;
 
@@ -44,6 +45,9 @@ const CarDetail = ({ car }) => {
     };
 
     const onSubmitBooking = async (data) => {
+        if (isSubmitting) return;
+        setIsModalOpen(false);
+        setIsSubmitting(true);
         const bookingData = {
             userID: user?.id,
             userName: user?.name,
@@ -75,6 +79,7 @@ const CarDetail = ({ car }) => {
 
 
         toast.success(`${carName} has been booked under ${user?.name}!`);
+        setIsSubmitting(false);
         redirect("/my-bookings");
     };
 
@@ -304,6 +309,7 @@ const CarDetail = ({ car }) => {
                                 </button>
                                 <button
                                     type="submit"
+                                    disabled={isSubmitting}
                                     className="px-5 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-bold text-xs rounded-xl transition-colors shadow-sm flex items-center space-x-1.5"
                                 >
                                     <span>Confirm Booking</span>
